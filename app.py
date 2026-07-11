@@ -378,19 +378,6 @@ with gr.Blocks(
         elem_id="chatbot",
         label="Ragam Guru",
         height=520,
-        show_copy_button=True,
-        avatar_images=(
-            None,  # user avatar
-            "https://api.dicebear.com/7.x/bottts/svg?seed=ragam&backgroundColor=FF6B35",  # bot
-        ),
-        placeholder=(
-            "<div style='text-align:center; padding: 60px 20px; color: #555;'>"
-            "<div style='font-size: 3em; margin-bottom: 16px;'>🎵</div>"
-            "<div style='font-size: 1.2em; color: #777;'>Ask Ragam Guru anything about Carnatic music</div>"
-            "<div style='font-size: 0.9em; color: #444; margin-top: 8px;'>"
-            "Try: \"What ragam is Vatapi Ganapatim?\" or \"Tell me about Kalyani\"</div>"
-            "</div>"
-        ),
     )
 
     with gr.Row():
