@@ -137,20 +137,40 @@ def extract_context_from_message(message: str) -> str:
 
 # ── Chat Function ─────────────────────────────────────────────────────────────
 
-def chat(message: str, history: list[dict]) -> str:
+def _extract_text(content) -> str:
+    """
+    Gradio 6 stores message content as either a plain string or a list of
+    content-block dicts: [{"type": "text", "text": "..."}].
+    This helper normalises both forms to a plain string.
+    """
+    if isinstance(content, list):
+        return " ".join(
+            item.get("text", "") if isinstance(item, dict) else str(item)
+            for item in content
+        ).strip()
+    if isinstance(content, dict):
+        return content.get("text", "")
+    return str(content) if content is not None else ""
+
+
+def chat(message, history: list[dict]) -> str:
     """
     Main chat function. Accepts a user message and conversation history,
     returns the assistant's response string.
     """
+    message = _extract_text(message)
     if not message.strip():
         return "Please ask me something about Carnatic music! 🎵"
 
     # Build message list for the API
     messages = [{"role": "system", "content": SYSTEM_PROMPT}]
 
-    # Add conversation history
+    # Add conversation history — normalise content to strings for the API
     for turn in history:
-        messages.append({"role": turn["role"], "content": turn["content"]})
+        messages.append({
+            "role": turn["role"],
+            "content": _extract_text(turn["content"]),
+        })
 
     # Enrich the user message with ragam context if applicable
     context = extract_context_from_message(message)
@@ -427,16 +447,16 @@ with gr.Blocks(
 
     # ── Event Handlers ────────────────────────────────────────────────────────
     def user_message(message, history):
-        """Add user message to history."""
+        """Add user message to history (normalise to plain string)."""
         history = history or []
-        history.append({"role": "user", "content": message})
+        history.append({"role": "user", "content": _extract_text(message)})
         return "", history
 
     def bot_response(history):
         """Generate and stream bot response."""
         if not history:
             return history
-        last_user_msg = history[-1]["content"]
+        last_user_msg = _extract_text(history[-1]["content"])
         history.append({"role": "assistant", "content": ""})
         for partial_response in chat(last_user_msg, history[:-1]):
             history[-1]["content"] = partial_response
