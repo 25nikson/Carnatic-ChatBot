@@ -210,10 +210,7 @@ THEME = gr.themes.Soft(
     font=[gr.themes.GoogleFont("Inter"), "sans-serif"],
 )
 
-with gr.Blocks(
-    theme=THEME,
-    title="Ragam Guru — Carnatic Music AI",
-    css="""
+APP_CSS = """
     /* ── Global ── */
     body { background: #0f0f0f; }
 
@@ -349,7 +346,10 @@ with gr.Blocks(
         border: 1px solid #222 !important;
         border-radius: 12px !important;
     }
-    """,
+"""
+
+with gr.Blocks(
+    title="Ragam Guru — Carnatic Music AI",
 ) as demo:
 
     # ── Header ──────────────────────────────────────────────────────────────
@@ -378,7 +378,6 @@ with gr.Blocks(
         elem_id="chatbot",
         label="Ragam Guru",
         height=520,
-        type="messages",
         show_copy_button=True,
         avatar_images=(
             None,  # user avatar
@@ -477,4 +476,6 @@ if __name__ == "__main__":
         server_name="0.0.0.0",   # Required for Render deployment
         server_port=port,
         show_error=True,
+        theme=THEME,
+        css=APP_CSS,
     )
