@@ -268,11 +268,35 @@ APP_CSS = """
         background: linear-gradient(135deg, #1e1208, #2a1a0a) !important;
         border-left: 3px solid #FF6B35 !important;
         border-radius: 12px !important;
+        color: #ffffff !important;
     }
     .message.user {
         background: linear-gradient(135deg, #0a1a2e, #0d2440) !important;
         border-left: 3px solid #4A9EFF !important;
         border-radius: 12px !important;
+        color: #ffffff !important;
+    }
+
+    /* ── Force white text on all chatbot content ── */
+    .message p, .message span, .message div,
+    .message li, .message ol, .message ul,
+    .message h1, .message h2, .message h3,
+    .message strong, .message em, .message code,
+    .message pre, .message blockquote {
+        color: #ffffff !important;
+    }
+    /* Gradio 6 message wrapper classes */
+    [class*="message"] p,
+    [class*="message"] span,
+    [class*="message"] li,
+    [class*="message"] strong,
+    [class*="message"] em {
+        color: #ffffff !important;
+    }
+    /* Bot bubble specifically */
+    .bot-row p, .bot-row span, .bot-row li,
+    .user-row p, .user-row span, .user-row li {
+        color: #ffffff !important;
     }
 
     /* ── Chatbot container ── */
